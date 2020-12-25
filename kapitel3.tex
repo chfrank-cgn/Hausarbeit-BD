@@ -1,0 +1,44 @@
+%
+%	Theorieteil
+%
+
+\pagebreak
+\section{Data Description}
+
+\onehalfspacing
+
+\subsection{Overall Blog Data}
+
+Text
+
+\subsection{Blog Post Categories}
+
+Text
+
+\begin{itemize}
+\item Cloud Credentials
+\item Node Templates
+\item Cluster Templates
+\end{itemize}
+
+\subsection{Blog Post Sentiment Annalysis}
+
+Text
+
+\subsection{Data Wrangling}
+
+Text
+
+We'll then take the defined token and create the Rancher provider in our plan file \verb|provider.tf|:
+
+\begin{lstlisting}[caption=Rancher Provider, frame=single, basicstyle=\ttfamily]
+# Rancher
+provider "rancher2" {
+  api_url = var.rancher-url
+  token_key = var.rancher-token
+}
+\end{lstlisting}
+
+\subsection{Blog Post Data}
+
+Text
