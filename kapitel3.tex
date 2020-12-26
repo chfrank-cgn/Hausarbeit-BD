@@ -7,13 +7,13 @@
 
 \onehalfspacing
 
-\subsection{Overall Blog Data}
+\subsection{Blog Data Overview}
 
 Text
 
 \subsection{Blog Post Categories}
 
-Text
+To enrich the data with category information
 
 \begin{itemize}
 \item Cloud Credentials
@@ -21,24 +21,18 @@ Text
 \item Cluster Templates
 \end{itemize}
 
-\subsection{Blog Post Sentiment Annalysis}
+\subsection{Blog Post Sentiment}
 
-Text
-
-\subsection{Data Wrangling}
-
-Text
-
-We'll then take the defined token and create the Rancher provider in our plan file \verb|provider.tf|:
+To enrich the data with sentiment information, we'll use this algorithm \footnote{See \textit{Pocs, M. (2018)}: Lovecraft with Natural Language Processing .\cite{lovecraftAnalysis}}
 
 \begin{lstlisting}[caption=Rancher Provider, frame=single, basicstyle=\ttfamily]
 # Rancher
 provider "rancher2" {
-  api_url = var.rancher-url
+  api_url = var.rancher-urli
   token_key = var.rancher-token
 }
 \end{lstlisting}
 
-\subsection{Blog Post Data}
+\subsection{Data Source}
 
-Text
+You can find the raw data and all charts from this chapter in the data notebook here: \href{https://plausible.io/chfrank.net}{WTA Chapter 3}

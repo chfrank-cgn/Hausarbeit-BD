@@ -7,14 +7,38 @@
 
 \onehalfspacing
 
-\subsection{Correlation between blog post categories and performance}
+\subsection{Blog Post Data Overview}
+
+Text
+
+\subsection{Data Wrangling}
+
+Text
+
+We'll then take the defined token and create the Rancher provider in our plan file \verb|provider.tf|:
+
+\begin{lstlisting}[caption=Rancher Provider, frame=single, basicstyle=\ttfamily]
+# Rancher
+provider "rancher2" {
+  api_url = var.rancher-urli
+  token_key = var.rancher-token
+}
+\end{lstlisting}
+
+\subsection{Blog Post Category Correlation}
 
 Text 
 
-\subsection{Correlation between blog post sentiment and performance}
+\subsection{Blog Post Sentiment Correlation}
 
 Text
 
 \subsection{Predictions}
 
-Text
+A full analysis will be in the final paper, but it looks like articles on COVID-19 and Climate are outperforming posts on other subjects. To increase reach and audience, these could become the focus of posts in the future.
+
+Looking at the global distribution, increasing the audience outside of Europe seems to be out of reach.
+
+\subsection{Data Source}
+
+You can find the raw data and all charts from this chapter in the data notebook here: \href{https://plausible.io/chfrank.net}{WTA Chapter 4}
