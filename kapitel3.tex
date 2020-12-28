@@ -93,7 +93,7 @@ Only by looking at the data I was already able to gain some insights into the be
 
 \subsection{Categories}
 
-As a next step, we'll want to look at the content of the blog posts. First, we'll have a look at the list of categories provided by the blog:
+As a next data point, we'll want to look at the content of the blog posts. First, we'll have a look at the list of categories provided by the blog:
 
 \begin{itemize}
 \item buddhism
@@ -120,10 +120,10 @@ From the blog's categories I have omitted two, cologne and general, as they are 
 To prepare for the analysis I have decided to reduce the number of categories down to four, based on the distribution of the posts in the WordPress dashboard:
 
 \begin{itemize}
-\item Climate and politics
-\item Cloud
-\item Social Media and culture
-\item Covid-19
+\item Climate and politics (1)
+\item Cloud (2)
+\item Social Media and culture (3)
+\item Covid-19 (4)
 \end{itemize}
 
 Climate and politics will include all posts regarding the climate emergency and the climate justice movement.
@@ -134,22 +134,40 @@ Social Media and culture will include posts on YouTube, music and movies.
 
 Covid-19 will cover all posts related to the other crisis, the current global pandemic.
 
+ If there's a blog post without category, I will encode the missing value with 0.
+
 These four content categories should help us in the next chapter analyzing the individual blog post performance and possibly arrive at more insights and some predictions.
 
 \subsection{Blog Post Sentiment}
 
 The final data point to explore is the sentiment of the post.
 
-To enrich the data with sentiment information, we'll use this algorithm \footnote{See \textit{Pocs, M. (2018)}: Lovecraft with Natural Language Processing .\cite{lovecraftAnalysis}}
+From the many available libraries for Python I've chosen VADER (Valence Aware Dictionary and sEntiment Reasoner) based on the description of the algorithm and its results in an analysis and ranking of texts by H.P. Lovecraft.\footnote{See \textit{Pocs, M. (2018)}: Lovecraft with Natural Language Processing .\cite{lovecraftAnalysis}}.
 
-\begin{lstlisting}[caption=Rancher Provider, frame=single, basicstyle=\ttfamily]
-# Rancher
-provider "rancher2" {
-  api_url = var.rancher-urli
-  token_key = var.rancher-token
-}
+Vader is "specifically attuned to analyzing social media posts"\footnote{\textit{Hutto, C. (2018)}: VADER Sentiment Analysis .\cite{vaderReadme}} and thus the perfect choice to analyze blog posts; Vader can also be used just with a few lines of code, making it an ideal library for casual analysis. 
+
+With a large data set there would have been the option to create and train a more specific NLP machine learning model to identify the post's sentiment, but for a small data set like the blog I felt it would be more prudent to use a ready-made library.
+
+Let's look at an example invocation:
+
+\begin{lstlisting}[caption=Vader invocation, frame=single, basicstyle=\ttfamily]
+from vaderSentiment.vaderSentiment 
+  import SentimentIntensityAnalyzer
+
+blogPost = "My first ever entirely virtual Christmas and 
+  it went quite well! And so will New Years, I hope."
+
+analyzer = SentimentIntensityAnalyzer()
+
+print(analyzer.polarity_scores(blogPost))
 \end{lstlisting}
+
+The text in the example is the first sentence of the most recent post and Vader will show the following sentiment rating:
+
+\verb|{'neu': 0.74, 'compound': 0.68, 'neg': 0.0, 'pos': 0.26}|
+
+From the documentation we know that compound is the normalized, weighted composite score of the other three values (positive, negative and neutral) and the value I'll be using to enrich our data.\footnote{See \textit{Hutto, C. (2018)}: VADER Sentiment Analysis .\cite{vaderReadme}} Compound will have values between 1 (most positive) and -1 (most negative) and there won't be any missing values; a value of 0 will indicate a completely neutral text.
 
 \subsection{Data Source}
 
-For data analysis and visualization I use Count data notebooks, you can find the raw data and all charts from this chapter here: \href{https://count.co/n/6WKuBzDV4Qq}{WTA Chapter 3}
+For the data analysis and visualization in this chapter I use a Count data notebook, you can find the raw data and all charts from this chapter here: \href{https://count.co/n/6WKuBzDV4Qq}{WTA Chapter 3}
