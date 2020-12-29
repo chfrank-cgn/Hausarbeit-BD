@@ -9,37 +9,118 @@
 
 \subsection{Blog Post Data Overview}
 
-Text
+Before enriching the data for analysis, let's have a look at the raw web analytics data and KIPs for the various posts:
+
+\begin{figure}[H]
+\centering
+\caption {Raw Blog Post Data}
+\includegraphics[width=\linewidth]{images/analysis-raw.png}
+\label{fig:analysisRaw}
+\end{figure}
+
+I have excluded all top-level access, such as from "/wordpress/" - visits by accessing the blog itself and then scrolling down can not be attributed to a certain post and thus not be enriched with category or sentiment data.
 
 \subsection{Data Wrangling}
 
-Text
+Adding category information from the blog to the raw data was relatively easy and a straight-forward exercise with vi.
 
-We'll then take the defined token and create the Rancher provider in our plan file \verb|provider.tf|:
+Blog posts on a WordPress blog, however, cannot easily be extracted. Wordpress offers an export function, but that will result in an archive in XML format, which is not suitable for text analysis.
 
-\begin{lstlisting}[caption=Rancher Provider, frame=single, basicstyle=\ttfamily]
-# Rancher
-provider "rancher2" {
-  api_url = var.rancher-urli
-  token_key = var.rancher-token
-}
+After several tests, I found that the best way to extract the text from the actual posts was to use a text-based browser; I chose elinks for the task.
+
+We already have the post URL in the data above, so extracting was done with a simple shell script:
+
+\verb|elinks https://.../2020/08/16/travel/ -dump > travel|
+
+\verb|...|
+
+As a the next step I created a small Python script to analyze the text and return the compoung sentiment value:
+
+\begin{lstlisting}[caption=Vader Sentiment Compound, frame=single, basicstyle=\ttfamily]
+from vaderSentiment.vaderSentiment 
+  import SentimentIntensityAnalyzer
+
+analyzer = SentimentIntensityAnalyzer()
+
+filenames = [ "anti-sexist-social-club",
+              "biden-harris",
+              ...
+              "xfce" ]
+
+for filename in filenames:
+  fd = open(filename)
+  blogPost = fd.read()
+  sentiment = analyzer.polarity_scores(blogPost)
+  print(filename + " " + 
+    str(int(sentiment['compound'] * 10)))
+
 \end{lstlisting}
+
+This script will return the compound sentiment value for the text from the VADER analysis, one row per file.
+
+\verb|anti-sexist-social-club 9|
+
+\verb|biden-harris 6|
+
+\verb|...|
+
+\verb|xfce 9|
+
+Adding the sentiment to the raw data again was a task for vi and sed.
+
+As a result, we now have a data set of all blog posts, the associated KPI values, their categories and their sentiment.
 
 \subsection{Blog Post Category Correlation}
 
-Text 
+Now that we've enriched the blog post data with category and sentiment information let's look at our KPIs by category. The encoding was as follows:
+
+\begin{itemize}
+\item Climate and politics: 1
+\item Cloud: 2
+\item Social Media and culture: 3
+\item Covid-19: 4
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\caption {Category Analysis}
+\includegraphics[width=\linewidth]{images/analysis-category.png}
+\label{fig:analysisCategory}
+\end{figure}
+
+The top-performing category with the most unique visitors, the most page views, and the lowest bounce rate is Climate and Politics; the second-best performing category in all KPIs is Covid-19. The two other categories fall way behind - my posts regarding either Cloud or Social Media don't seem to be interesting to my readers.
 
 \subsection{Blog Post Sentiment Correlation}
 
-Text
+For the two best performing categories, Climate and Politics, and Covid-19, let's have a look at the KPIs broken down by sentiment, Climate first.
+
+The sentiment is a compound value from the NLP analysis and ranges between -10 and 10, from total negative to total positive.
+
+\begin{figure}[H]
+\centering
+\caption {Sentiment Analysis - Climate}
+\includegraphics[width=\linewidth]{images/analysis-sentiment-climate.png}
+\label{fig:sentimentClimate}
+\end{figure}
+
+If we compare the number of Unique Visitors for a Climate post with positive and negative sentiment, we cannot observe a significantly large difference (62 vs. 74). When we look at the number of Page Views (98 vs. 145), we can see a difference, with favor towards climate action posts with a more negative sentiment. There seems to be no influence from the posts' sentiment on the average Bounce Rate.
+
+Now let's do the same analysis for posts regarding Covid-19 and the current pandemic.
+
+\begin{figure}[H]
+\centering
+\caption {Sentiment Analysis - Covid-19}
+\includegraphics[width=\linewidth]{images/analysis-sentiment-covid.png}
+\label{fig:sentimentCovid}
+\end{figure}
+
+Now there's a visible difference - both Unique Visitors (45 vs. 21) and Page Views (79 vs. 28) are significantly higher for blog posts on Covid-19 with a more positive sentiment. Again, there seems to be no influence from the posts' sentiment on the average Bounce Rate.
+
+\subsection{Results}
+
+Text.
 
 \subsection{Predictions}
-
-A full analysis will be in the final paper, but it looks like articles on COVID-19 and Climate are outperforming posts on other subjects. To increase reach and audience, these could become the focus of posts in the future.
-
-Looking at the global distribution, increasing the audience outside of Europe seems to be out of reach.
-
-\subsection{Other Results}
 
 Text.
 

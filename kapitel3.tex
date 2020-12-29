@@ -21,7 +21,7 @@ I enabled Plausible web analytics on the blog only six months ago. Let's start w
 Looking at the number of unique visitors, we can see a spike in August, most likely in preparation for the latest global climate strike and in November, when the second lockdown started. I would assume that the figures for December are probably a bit too low as I have collected the data before the end of the month.
 
 \subsection{Access by Country}
-
+elinks https://chfrank.net/wordpress/2020/08/16/travel/ -dump > blog/travel
 Where do all the visitors of the blog come from? Let's first have a look at the distribution by country:
 
 \begin{figure}[H]
@@ -150,7 +150,7 @@ With a large data set there would have been the option to create and train a mor
 
 Let's look at an example invocation:
 
-\begin{lstlisting}[caption=Vader invocation, frame=single, basicstyle=\ttfamily]
+\begin{lstlisting}[caption=Vader Example, frame=single, basicstyle=\ttfamily]
 from vaderSentiment.vaderSentiment 
   import SentimentIntensityAnalyzer
 
@@ -160,6 +160,7 @@ blogPost = "My first ever entirely virtual Christmas and
 analyzer = SentimentIntensityAnalyzer()
 
 print(analyzer.polarity_scores(blogPost))
+
 \end{lstlisting}
 
 The text in the example is the first sentence of the most recent post and Vader will show the following sentiment rating:
