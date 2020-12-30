@@ -9,11 +9,11 @@
 
 \subsection{The Blog}
 
-The blog is question is my personal \href{https://chfrank.net/wordpress}{web log} that I started a couple of years ago, initially on the now-defunct Google+ platform. It's now on a hosted WordPress instance provided by a local service provider running on a web server farm in Strasbourg. A move from Google+ to Blogger instead of WordPress might have been the easier choice and also allowed for more consistency, however, now there was a clean break between the hosting platforms and the original Google+ data is lost.
+The blog is question is my personal \href{https://chfrank.net/wordpress}{web log} that I started a couple of years ago, initially on the now-defunct Google+ platform. It's now on a hosted WordPress instance provided by a local service provider running on a web server farm in Strasbourg. A move from Google+ to Blogger instead of WordPress might have been the easier choice and also allowed for more consistency, however, I made a clean break between the hosting platforms and the original Google+ data is lost. I maintain some Google+ connections on Diapora*, though.
 
-I use the blog to complement my other social media whenever I feel the need to express myself in slightly longer texts. I try to post at least once per week and cross-post the blog entries to my other channels, private as well as professional; for small essays I use Medium to publish.
+I use the blog to complement my other social media whenever I feel the need to express myself in slightly longer texts. I try to post at least once per week and cross-post the blog entries to my other channels, private as well as professional; for small essays I use Medium to publish them.
 
-Although I do cross-post, I never duplicate entries and thus there is no dilution of data; the data from every post is be unique and all content is only published once.
+Although I do cross-post, I never duplicate entries and thus there is no dilution of data; the data from every post is unique and all content is only published once.
 
 During the current and past COVID-19 lockdowns I wrote a running week-by-week commentary, which does affect the traffic analysis outcome, as we'll see later.
 
@@ -30,19 +30,23 @@ Plausible does not use any kind of tracking cookies and claims to be fully compl
 \label{fig:plausibleSummary}
 \end{figure}
 
-In a previous paper, I have covered Plausible in more detail and compared it with other web analytics tools\footnote{See \textit{Frank, C. (2020)}: Usefulness of open-source tools for web analytics in EMarketing .\cite{previousPaper}}; I will not go any further into details of the tool itself in this paper.
+In a previous paper, I have covered Plausible in more detail and compared it with other web analytics tools\footnote{See \textit{Frank, C. (2020)}: Usefulness of open-source tools for web analytics in E-Marketing.\cite{previousPaper}}; I will not go any further into details of the tool itself in this paper.
 
 In case you're interested, you can find up-to-date raw web traffic data from the blog here: \href{https://plausible.io/chfrank.net}{Plausible Analytics}.
+
+\subsection{Count}
+
+To analyze and visualize the data I'll be using data notebooks from Count. Similar to Jupyter notebooks that combine (Python) Code and Text, the data notebooks combine (SQL) Data and Text in a pretty ingenious way. Data notebooks support data driven decision making and they are currently in open beta.\footnote{See \textit{Count.co (2020)}: About Count.\cite{aboutCount}}
 
 \subsection{Web Traffic KPIs}
 
 In marketing categories, a blog belongs to the realm of inbound marketing, as it tries to offer interesting content and create value for the visitors, but does not reach out by itself. 
 
-Unlike outbound EMail campaigns, for example, that ask the visitor to view a certain website, a blog relies on its content and the willingness of the visitor to actively choose the site for a visit, for example by being pointed to a post from Google search result or a tweet.
+Unlike outbound email campaigns, for example, that ask the visitor to view a certain website, a blog relies on its content and the willingness of the visitor to actively choose the site for a visit, for example by being pointed to a post from a Google search result or a tweet.
 
-In WordPress there is an option to subscribe to a blog to get notification on new posts; WordPress also provides the ability to subscribe to a blog's RSS feed.
+In WordPress there is an option to subscribe to a blog to get notification on new posts; WordPress also provides the ability to subscribe to a blog's RSS feed. Even though, as this requires active user interaction and interest, blogs are considered an inbound channel.
 
-In a recent paper on inbound marketing, Yvonne Romes identifies a couple of important KPIs for inbound marketing, a couple of which I will summarize here based on her paper:\footnote{See \textit{Romes, Y. (2020)}: 10 Inbound KPIs, die jetzt auch Personaler kennen sollten .\cite{inboundKPI}}
+In a recent paper on inbound marketing, Yvonne Romes identifies a couple of important KPIs for inbound marketing, a couple of which I will summarize here based on her paper:\footnote{See \textit{Romes, Y. (2020)}: 10 Inbound KPIs, die jetzt auch Personaler kennen sollten.\cite{inboundKPI}}
 
 \begin{itemize}
 \item Page Views
@@ -63,30 +67,30 @@ In this paper, these are the four metrics that I will focus on.
 
 \subsection{Statistical Methods}
 
-I will base the analysis on the excellent work and plentiful documentation available at Towards Data Science, a platform on Medium to exchange ideas and to expand the understanding of data science.\footnote{See \textit{TDS Editors (2018)}: About Towards Data Science .\cite{aboutTDS}}
+I will base the analysis on the excellent work and plentiful documentation available at Towards Data Science, a platform on Medium to exchange ideas and to expand the understanding of data science.\footnote{See \textit{TDS Editors (2018)}: About Towards Data Science.\cite{aboutTDS}}
 
 Key elements in data science are statistics and linear algebra.
-https://count.co/n/6WKuBzDV4Qq
-"From an academic perspective, understanding linear algebra is paramount to having a strong knowledge of specific topics within computer vision and deep learning."\footnote{\textit{Alake, R. (2020)}: 6 Questions Asked By Machine Learning Enthusiasts .\cite{sixQuestions}}
 
-A great reference for using linear algebra in data science and machine learning is the book, "Mathematics for Machine Learning" by Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong.\footnote{See \textit{Deisenroth, M.P. (2020)}: Mathematics for Machine Learning .\cite{mathematicsML}}
+"From an academic perspective, understanding linear algebra is paramount to having a strong knowledge of specific topics within computer vision and deep learning."\footnote{\textit{Alake, R. (2020)}: 6 Questions Asked By Machine Learning Enthusiasts.\cite{sixQuestions}}
 
-In this paper I will stay relatively simple and only look at two-dimensional data to identify possible correlations between measurements. I am acutely aware of the fact that "correlation does not imply causation"\footnote{See \textit{Singh, S. (2020)}: Why correlation does not imply causation .\cite{correlateCause}} and will make sure that our findings match real-world scenarios and experiences.
+A great reference for using linear algebra in data science and machine learning is the book, "Mathematics for Machine Learning" by Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong.\footnote{See \textit{Deisenroth, M.P. (2020)}: Mathematics for Machine Learning.\cite{mathematicsML}}
 
-Statistics is the bedrock of data science. In this paper I will measure central tendency through arithmetic mean, median and mode of our data.\footnote{See \textit{Yıldırım, S. (2020)}: 10 Must-Know Statistical Concepts for Data Scientists .\cite{bedrockScience}}
+In this paper I will stay relatively simple and only look at two-dimensional data to identify possible correlations between measurements. I am acutely aware of the fact that "correlation does not imply causation"\footnote{See \textit{Singh, S. (2020)}: Why correlation does not imply causation.\cite{correlateCause}} and will make sure that our findings match real-world scenarios and experiences.
 
-The actual data-set is small, as the blog does not have a lot of traffic, so any method that relies on a high number of data points might not work. For the analysis and predictions of future performance I will henceforth rely mainly on visualization techniques and verbal interpretation of the data.
+Statistics is the other bedrock of data science. In this paper I will measure central tendency through arithmetic mean, median and mode of our data.\footnote{See \textit{Yıldırım, S. (2020)}: 10 Must-Know Statistical Concepts for Data Scientists.\cite{bedrockScience}}
+
+The actual data set is small, as the blog does not have a lot of traffic, so any method that relies on a high number of data points will not work. For the analysis and predictions of future performance I will henceforth rely mainly on visualization techniques, tables and verbal interpretation of the data.
 
 \subsection{Sentiment Analysis}
 
-The blog already has categories for its content, so there's no need to extract content information from the posts to categorize them. There is, however, no information in the blog data in regards to the sentiment of the post.
+The blog already has categories for its content, so there's no need to manually extract content information from the posts to categorize them. There is, however, no information in the blog data in regards to the sentiment of the post.
 
-Especially concerning the current pandemic, it can make a lot of difference if a blog post is either upbeat or rather fatalistic, so I will make an attempt at identifying the sentiment of the individual entries.
+Especially concerning the current pandemic, I think it can make a lot of difference if a blog post is either upbeat or rather fatalistic, so I will make an attempt at identifying the sentiment of the individual entries.
 
 To do this, I will use sentiment analysis. 
 
 Sentiment analysis is a technique from the field of Natural Language Processing and fits into Contextual Semantic Search. 
 
-The aim of sentiment analysis is to identify the sentiment of a text message as either positive, negative or neutral.\footnote{See \textit{Gupta, S. (2018)}: Sentiment Analysis: Concept, Analysis and Applications .\cite{sentimentAnalysis}} With the categories already present, there's no need to go deeper and add intent or context to the analysis; it will suffice to enrich the post data with sentiment information.
+The aim of sentiment analysis is to identify the sentiment of a text message as either positive, negative or neutral.\footnote{See \textit{Gupta, S. (2018)}: Sentiment Analysis: Concept, Analysis and Applications.\cite{sentimentAnalysis}} With the categories already present, there's no need to go deeper and add intent or context to the analysis; it will suffice to enrich the post data with sentiment information.
 
-There are a number or ready-made sentiment analysis libraries available for both R and Python. Since I am a bit more familiar with Python and functional programming, I will concentrate on the use of Python in the next chapters.
+There are a number or ready-made sentiment analysis libraries available for both R and Python. Since I am a bit more familiar with Python and functional programming than with R, I will concentrate on the use of Python in the next chapters.
