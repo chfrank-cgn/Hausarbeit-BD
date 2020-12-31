@@ -87,7 +87,7 @@ Second, let's look at these KPIs by source:
 
 As expected, we can see the same picture here, direct access to the blog has the highest number of unique visitors, the most prolonged visit duration, and the lowest bounce rate.
 
-However, access from the search engines is a lot less than from cross-posting, which I did not expect. To improve this, I might need to review the Google Search Console settings and pay closer attention to tags and keywords.
+However, access from the search engines is a lot less than from cross-posting through dlvr.it, which I did not expect. To improve this, I might need to review the Google Search Console settings and pay closer attention to tags and keywords.
 
 Just by looking at the data, I was already able to gain some insights into the visitors' behavior and identify some possible improvements for the future.
 
@@ -142,7 +142,7 @@ These four content categories should help us in the next chapter analyzing the i
 
 The final data point to explore is the sentiment of the post.
 
-From the many available libraries for Python I've chosen VADER (Valence Aware Dictionary and sEntiment Reasoner) based on the description of the algorithm and its results in an analysis and ranking of texts by H.P. Lovecraft.\footnote{See \textit{Pocs, M. (2018)}: Lovecraft with Natural Language Processing.\cite{lovecraftAnalysis}}.
+From the many available libraries for Python I've chosen VADER (Valence Aware Dictionary and sEntiment Reasoner) based on the description of the algorithm and its results in an analysis and ranking of texts by H.P. Lovecraft.\footnote{See \textit{Pocs, M. (2018)}: Lovecraft with Natural Language Processing.\cite{lovecraftAnalysis}}
 
 Vader is "specifically attuned to analyzing social media posts"\footnote{\textit{Hutto, C. (2018)}: VADER Sentiment Analysis.\cite{vaderReadme}} and thus the perfect choice to analyze blog posts; Vader can also be used just with a few lines of code, making it an ideal library for casual analysis such as this one. 
 
@@ -167,7 +167,7 @@ The text in the example is the first sentence of the most recent post and Vader 
 
 \verb|{'neu': 0.74, 'compound': 0.68, 'neg': 0.0, 'pos': 0.26}|
 
-We know that compound is the normalized, weighted composite score of the other three values (positive, negative, and neutral) from the documentation. I'll be using the sentiment compound values to enrich our data.\footnote{See \textit{Hutto, C. (2018)}: VADER Sentiment Analysis.\cite{vaderReadme}}. The compound will have values between 1 (most positive) and -1 (most negative), and there won't be any missing values; a value of 0 will indicate a completely neutral text.
+We know that compound is the normalized, weighted composite score of the other three values (positive, negative, and neutral) from the documentation. I'll be using the sentiment compound values to enrich our data.\footnote{See \textit{Hutto, C. (2018)}: VADER Sentiment Analysis.\cite{vaderReadme}} The compound will have values between 1 (most positive) and -1 (most negative), and there won't be any missing values; a value of 0 will indicate a completely neutral text.
 
 \subsection{Data Source}
 
